@@ -17,6 +17,16 @@ final class ContactoController extends AbstractController
         7 => ["nombre" => "Laura Martínez", "telefono" => "42898966", "email" => "lm2000@ieselcaminas.org"],
         9 => ["nombre" => "Nora Jover", "telefono" => "54565859", "email" => "norajover@ieselcaminas.org"]
     ];
+
+    #[Route('/contacto/{codigo?1}', name: 'ficha_contacto')]
+    public function ficha(ManagerRegistry $doctrine, $codigo): Response{
+        $repositorio = $doctrine->getRepository(Contacto::class);
+        $contacto = $repositorio->find($codigo);
+
+        return $this->render('ficha_contacto.html.twig', [
+        'contacto' => $contacto
+        ]);
+    }
     
     #[Route('/contacto/insertar', name: 'insertar_contacto')]
     public function insertar(ManagerRegistry $doctrine)
@@ -37,15 +47,5 @@ final class ContactoController extends AbstractController
         } catch (\Exception $e) {
             return new Response("Error insertando objetos");
         }
-    }
-    
-    #[Route('/contacto/{codigo?1}', name: 'ficha_contacto')]
-    public function ficha($codigo): Response{
-        //Si no existe el elemento con dicha clave devolvemos null
-        $resultado = ($this->contactos[$codigo] ?? null);
-
-        return $this->render('ficha_contacto.html.twig', [
-        'contacto' => $resultado
-        ]);
     }
 }
