@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactoRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ContactoRepository::class)]
 class Contacto
 {
@@ -14,13 +14,21 @@ class Contacto
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 15)]
+    #[Assert\NotBlank]
     private ?string $telefono = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $email = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
+    private ?Provincia $provincia = null;
 
     public function getId(): ?int
     {
@@ -59,6 +67,18 @@ class Contacto
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getProvincia(): ?Provincia
+    {
+        return $this->provincia;
+    }
+
+    public function setProvincia(?Provincia $provincia): static
+    {
+        $this->provincia = $provincia;
 
         return $this;
     }
