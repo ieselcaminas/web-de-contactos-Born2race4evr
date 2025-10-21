@@ -21,8 +21,9 @@ class Contacto
     #[Assert\NotBlank]
     private ?string $telefono = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "string", length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Email(message: "El email {{ value }} no es válido")]
     private ?string $email = null;
 
     #[ORM\ManyToOne]
@@ -40,7 +41,7 @@ class Contacto
         return $this->nombre;
     }
 
-    public function setNombre(string $nombre): static
+    public function setNombre(?string $nombre): static
     {
         $this->nombre = $nombre;
 
@@ -52,7 +53,7 @@ class Contacto
         return $this->telefono;
     }
 
-    public function setTelefono(string $telefono): static
+    public function setTelefono(?string $telefono): static
     {
         $this->telefono = $telefono;
 
@@ -64,7 +65,7 @@ class Contacto
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 

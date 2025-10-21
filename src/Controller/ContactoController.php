@@ -151,13 +151,11 @@ final class ContactoController extends AbstractController
     #[Route('/contacto/editar/{codigo}', name: 'editar', requirements:["codigo"=>"\d+"])]
     public function editar(ManagerRegistry $doctrine, Request $request, int $codigo) {
         $repositorio = $doctrine->getRepository(Contacto::class);
-        //En este caso, los datos los obtenemos del repositorio de contactos
         $contacto = $repositorio->find($codigo);
         if ($contacto){
             $formulario = $this->createForm(ContactoType::class, $contacto);
             $formulario->handleRequest($request);
             if ($formulario->isSubmitted() && $formulario->isValid()) {
-                //Esta parte es igual que en la ruta para insertar
                 $contacto = $formulario->getData();
                 $entityManager = $doctrine->getManager();
                 $entityManager->persist($contacto);
