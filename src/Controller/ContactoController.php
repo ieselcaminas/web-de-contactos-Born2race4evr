@@ -177,8 +177,9 @@ final class ContactoController extends AbstractController
         $repositorio = $doctrine->getRepository(Contacto::class);
         $contacto = $repositorio->find($codigo);
 
-        return $this->render('ficha_contacto.html.twig', [
-        'contacto' => $contacto
-        ]);
-    }
+        if ($contacto){
+            return $this->render('ficha_contacto.html.twig', ['contacto' => $contacto]);
+        }
+        return new Response("<html lang='en'<body>Contacto $codigo no encontrado</body></html>");
+    }  
 }

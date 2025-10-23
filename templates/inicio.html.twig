@@ -2,11 +2,13 @@
 {% block title %}Contactos{% endblock %}
 {% block body %}
     <h1>Ficha del contacto</h1>
-    {% if contacto %}
+    {% if contactos %}
     <ul>
-        <li><strong>{{ contacto.nombre }}</strong></li>
-        <li><strong>Teléfono: </strong>{{ contacto.telefono }}</li>
-        <li><strong>Correo: </strong>{{ contacto.email }}</li>
+        {% for contacto in contactos %}
+        <li>
+            <a href = "{{ path('ficha_contacto', {'id': contacto.id}) }}">{{ contacto.nombre}}</a>
+        </li>
+        {% endfor %}
     </ul>
     {% else %}
         <p>Contacto no encontrado</p>
